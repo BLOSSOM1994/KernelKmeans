@@ -1,15 +1,13 @@
-% Modified by M.Amintoosi
-% http://www.dcs.gla.ac.uk/~srogers/firstcourseml/matlab/chapter6/kernelkmeans.html#5
+% Modified by blossom
+
 clear all
 close all
 load fisheriris;
 X = meas(:,3:4);
 Y = species;
-% produceNLData
+
 figure(1);hold off
 plot(X(:,1),X(:,2),'k*');
-
-%% Compute the kernel
 
 N = size(X,1);
 Ke = zeros(N);
@@ -17,17 +15,12 @@ gam = 1;
 for n = 1:N
     for n2 = 1:N
         Ke(n,n2) = exp(-sum((X(n,:)-X(n2,:)).^2)); % Gaussian
-%         Ke(n,n2) = X(n,:)*X(n2,:)'; % Linear
-%         Ke(n,n2) = sum(x(n,:).^2)-sum(x(n2,:).^2); % Point Distances
     end
 end
 
-%% Run Kernel K-means
 
 converged = 0;
-% Assign all objects into one cluster except one
-% Kernel K-means is *very* sensitive to initial conditions.  Try altering
-% this initialisation to see the effect.
+
 K = 2;
 Z = repmat([1 0],N,1);
 s = sum(X.^2,2);
@@ -36,8 +29,6 @@ Z(pos,:) = [0 1];
 di = zeros(N,K);
 cols = {'r','b'};
 
-%% Plot the assignments
-
 figure(1);hold off
 for k = 1:K
     pos = find(Z(:,k));
@@ -45,7 +36,7 @@ for k = 1:K
     hold on
 end
 
-%% 
+ 
 while ~converged
 
     Nk = sum(Z,1);
@@ -61,7 +52,6 @@ while ~converged
         converged = 1;
     end
 
-% Plot the assignments
 
     figure(1);hold off
     for k = 1:K
